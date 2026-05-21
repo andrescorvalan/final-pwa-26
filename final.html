@@ -20,11 +20,19 @@
   <p><strong>Ciudad:</strong> {{ ciudad }}</p>
   <p>Hola, mi nombre es {{ nombre }}, tengo {{ edad }} años y vivo en {{ ciudad }}.</p>
 
+  <h1>Paso 3 - Contador Interactivo (Interpolación y ventos)</h1>
+
+  <p><strong>Contador:</strong> {{ contador }}</p>
+  <button @click="incrementarContador"> Incrementar </button>
+  <button @click="decrementarContador" :disabled="contador === 0" > Decrementar </button>
+  <!-- Si puede pasar a los negaticos:
+   <button @click="decrementarContador"> Decrementar </button> -->
+
+
+
 
 
 </div>
-
-
 
 </body>
 </html>
@@ -35,7 +43,18 @@
     data: {
       nombre: "Ana Garcia",
       edad: 30,
-      ciudad: "Tupungato"
+      ciudad: "Tupungato",
+
+      contador: 0,
+    },
+    methods: {
+      incrementarContador(){
+        this.contador++
+      },
+      decrementarContador(){
+        this.contador--
+      },
+
     }
   })
 </script>
