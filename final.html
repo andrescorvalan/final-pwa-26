@@ -56,6 +56,38 @@
   <h1>Paso 5 - Implementación de Axios</h1>
   <p>Se implementaron las funcines pero se usan en el siguiente paso</p>
 
+  <h1>Paso 5 - Uso de las funciones de Axios</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>UserId</th>
+        <th>Id</th>
+        <th>Post</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr @click="seleccionarPost(unPost.id)" v-for="unPost in arrayPosts">
+        <td>{{ unPost.userId }}</td>
+        <td>{{ unPost.id }}</td>
+        <td>
+          <p><strong>Id:</strong> {{ unPost.title }}</p>
+          <p><strong>Id:</strong> {{ unPost.body }} </p>
+          <div v-if="idSeleccionado === unPost.id">
+            <ol>
+              <li v-for="unComment in arrayComments">
+                <p><strong>Id:</strong> {{ unComment.id }}</p>
+                <p><strong>Name:</strong> {{ unComment.name }}</p>
+                <p><strong>Body:</strong> {{ unComment.body }}</p>
+                <p><strong>Email:</strong> {{ unComment.email }}</p>
+              </li>
+            </ol>   
+         </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
 </div>
 
 </body>
@@ -79,9 +111,9 @@
         { id: 4, texto: 'Pedir constancia de examen!!!', completada: false },
       ],
 
-
       arrayPosts: [],
       arrayComments: [],
+      idSeleccionado: 0
     },
     methods: {
       incrementarContador(){
@@ -101,7 +133,7 @@
       async obtenerPost(postId){
         try {
           var resultado = await axios.get(`https://jsonplaceholder.typicode.com/posts/${postId}`)
-          return resultado
+          return resultado.data
         } catch (error) {
           console.log(error)
         }
@@ -109,11 +141,19 @@
       async obtenerComments(postId){
       try {
           var resultado = await axios.get(`https://jsonplaceholder.typicode.com/posts/${postId}/comments`)
-          return resultado
+          return resultado.data
         } catch (error) {
           console.log(error)
         }
       },
+      async seleccionarPost(id){
+        if(id!==this.idSeleccionado){
+          this.idSeleccionado = id
+          this.arrayComments = await this.obtenerComments(id)
+        }else{
+          this.idSeleccionado=null  
+        }
+      }
     },
     computed: {
       tareasPendientes(){
@@ -130,6 +170,27 @@
         return this.arrayTareas.length
       },
     },
-    
+    async mounted() {
+      for(i=1; i<=10; i++) {
+        var unPost = await this.obtenerPost(i)
+        this.arrayPosts.push(unPost)
+      }
+    }
   })
 </script>
+
+<style>
+  table{
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th,td {
+    border: 1px solid blue;
+  }
+  thead{
+    background-color: rgb(141, 145, 145);
+  }
+  p {
+    margin:0;
+  }
+</style>
