@@ -26,10 +26,31 @@
   <button @click="incrementarContador"> Incrementar </button>
   <button @click="decrementarContador" :disabled="contador === 0" > Decrementar </button>
   <!-- Si puede pasar a los negaticos:
-   <button @click="decrementarContador"> Decrementar </button> -->
+  <button @click="decrementarContador"> Decrementar </button> -->
 
+  <h1>Paso 4 - Lista de Tareas con Conteo y Estado (Propiedades Computadas, Interpolación, Eventos)</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Tarea</th>
+        <th>completada</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="unaTarea in arrayTareas">
+        <td>{{ unaTarea.id }}</td>
+        <td>{{ unaTarea.texto }}</td>
+        <td><input type="checkbox" v-model="unaTarea.completada"></td>
+      </tr>
+    </tbody>
+  </table>
 
+  <input type="text" v-model="nuevaTarea">
+  <button @click="addTarea">Agregar Tarea</button>
 
+  <p><strong>Tareas Pendientes:</strong> {{ tareasPendientes }}</p>
+  <p><strong>Tareas Totales:</strong> {{ totalTareas }}</p>
 
 
 </div>
@@ -46,6 +67,15 @@
       ciudad: "Tupungato",
 
       contador: 0,
+
+      nuevaTarea: '',
+      arrayTareas: [
+        { id: 1, texto: 'Aprender Vue', completada: true },
+        { id: 2, texto: 'Rendir el final de PWA', completada: false },
+        { id: 3, texto: 'Aproba el final de PWA', completada: false },
+        { id: 4, texto: 'Pedir constancia de examen!!!', completada: false },
+      ],
+
     },
     methods: {
       incrementarContador(){
@@ -54,7 +84,30 @@
       decrementarContador(){
         this.contador--
       },
+      addTarea(){
+        this.arrayTareas.push({
+          id: this.arrayTareas.length+1,
+          texto: this.nuevaTarea,
+          completada: false
+        })
+        this.nuevaTarea = ''
+      },
 
+    },
+    computed:{
+      tareasPendientes(){
+        var pendientes=0
+        this.arrayTareas.forEach(element => {
+           if(!element.completada)
+             pendientes++
+        });
+        return pendientes
+        // return this.arrayTareas.filter(unaTarea => unaTarea.completada===false)
+        // me gano por ahora
+      },
+      totalTareas(){
+        return this.arrayTareas.length
+      },
     }
   })
 </script>
