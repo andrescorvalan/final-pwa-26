@@ -8,11 +8,34 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 <body>
   
+<div id="app">
 
-<h1>Paso 1 - Creación repositorio</h1>
+  <h1>Paso 1 - Creación repositorio</h1>
 
-<p>Creacion del archivo del examen para hacer el primer commit.</p>
+  <p>Creacion del archivo del examen para hacer el primer commit.</p>
+
+  <h1>Paso #2 - Información de Perfil Simple</h1>
+  <p><strong>Nombre:</strong> {{ nombre }}</p>
+  <p><strong>Edad:</strong> {{ edad }}</p>
+  <p><strong>Ciudad:</strong> {{ ciudad }}</p>
+  <p>Hola, mi nombre es {{ nombre }}, tengo {{ edad }} años y vivo en {{ ciudad }}.</p>
+
+
+
+</div>
+
 
 
 </body>
 </html>
+
+<script>
+  var app = new Vue({
+    el: '#app',
+    data: {
+      nombre: "Ana Garcia",
+      edad: 30,
+      ciudad: "Tupungato"
+    }
+  })
+</script>
